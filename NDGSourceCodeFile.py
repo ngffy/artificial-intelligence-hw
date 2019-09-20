@@ -85,6 +85,7 @@ class State():
     def __ge__(self, other):
         return self.priority >= other.priority
 
+    # Defined so State objects can be put in sets
     def __hash__(self):
         return hash(self.board)
 
@@ -105,6 +106,8 @@ def heuristic_two(curr_state, goal_state):
             h += row_moves + col_moves
     return h
 
+# Recursively traces the given state back up to the start state and returns
+# list of intermediate states
 def unwind(state, start, visited):
     if state != start:
         for v in visited:
