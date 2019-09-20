@@ -109,14 +109,16 @@ def unwind(state, start, visited):
     if state != start:
         for v in visited:
             if v.id == state.parent_id:
-                unwind(v, start, visited)
-    print(state)
-    print()
+                return unwind(v, start, visited) + [state]
+    return [state]
 
 def search(start, goal, heuristic=None):
     open_list = PriorityQueue()
     closed_list = set()
     open_list.put(start)
+
+    added_to_open = 0
+    added_to_closed = 0
 
     while not open_list.empty():
         curr = open_list.get()
@@ -124,16 +126,28 @@ def search(start, goal, heuristic=None):
             continue
 
         if curr == goal:
-            unwind(curr, start, closed_list)
             break
 
         closed_list.add(curr)
+        added_to_closed += 1
 
         neighbors = curr.expand_state()
         for n in neighbors:
             if heuristic is not None:
                 n.set_priority(goal, heuristic)
             open_list.put(n)
+            added_to_open += 1
+
+    path = unwind(curr, start, closed_list)
+
+    for s in path:
+        print(s)
+        print()
+
+    print("Moves:", len(path)-1)
+    print("Items added to open list:", added_to_open)
+    print("Items added to closed list:", added_to_closed)
+    print()
 
 start = State((1,5,2,3,4,6,0,7,8,9,10,11,12,13,14,15,16,17,18,19))
 goal = State((1,2,0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19))
