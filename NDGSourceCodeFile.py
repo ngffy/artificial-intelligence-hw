@@ -16,6 +16,7 @@ class State():
         self.g = g
         self.h = 0
 
+    # Returns a list of the indices of tiles that can be moved
     def get_movable_tiles(self, i):
         on_top_edge = i in range(0, 4)
         on_left_edge = i in range(0, 20, 4)
@@ -59,9 +60,11 @@ class State():
         prior = "\npriority: "+str(self.priority)
         return "ID "+str(self.id)+":\n"+self.pretty_board()+"\n"+funcs+pid+prior
 
+    # == is overloaded to allow easy comparison to the goal state
     def __eq__(self, other):
         return self.board == other.board
 
+    # All the inequality operators are overloaded so the priority queue works
     def __lt__(self, other):
         return self.priority < other.priority
 
