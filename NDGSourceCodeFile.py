@@ -16,31 +16,31 @@ class State():
         self.g = g
         self.h = 0
 
-    def get_adjacent_slots(self, i):
+    def get_movable_tiles(self, i):
         on_top_edge = i in range(0, 4)
         on_left_edge = i in range(0, 20, 4)
         on_right_edge = i in range(3, 24, 4)
         on_bot_edge = i in range(16, 20)
 
-        adj_slots = []
+        movable_tiles = []
         if not on_top_edge:
-            adj_slots.append(i-4)
+            movable_tiles.append(i-4)
         if not on_left_edge:
-            adj_slots.append(i-1)
+            movable_tiles.append(i-1)
         if not on_right_edge:
-            adj_slots.append(i+1)
+            movable_tiles.append(i+1)
         if not on_bot_edge:
-            adj_slots.append(i+4)
+            movable_tiles.append(i+4)
 
-        return adj_slots
+        return movable_tiles
 
     def expand_state(self):
         empty_slot = self.board.index(0)
-        adj_slots = self.get_adjacent_slots(empty_slot)
+        movable_tiles = self.get_movable_tiles(empty_slot)
 
-        neighbors = [list(self.board) for i in adj_slots]
+        neighbors = [list(self.board) for i in movable_tiles]
         for n in neighbors:
-            tmp = adj_slots.pop()
+            tmp = movable_tiles.pop()
             n[empty_slot], n[tmp] = n[tmp], n[empty_slot]
 
         cost = lambda x: 1 if x < 10 else 2
