@@ -155,8 +155,8 @@ def search(start, goal, heuristic=None):
         print()
 
     print("Moves:", len(path)-1)
-    print("Items added to open list:", added_to_open)
-    print("Items added to closed list:", added_to_closed)
+    print("States added to open list:", added_to_open)
+    print("States added to closed list:", added_to_closed)
     print()
 
 start = State((1,5,2,3,4,6,0,7,8,9,10,11,12,13,14,15,16,17,18,19))
