@@ -122,7 +122,6 @@ def search(start, goal, heuristic=None):
 
     added_to_open = 1
     added_to_closed = 0
-    checked = 0
 
     while not open_list.empty():
         curr = open_list.get()
@@ -132,12 +131,10 @@ def search(start, goal, heuristic=None):
         if curr == goal:
             break
 
-        checked += 1
-
         closed_list.add(curr)
         added_to_closed += 1
 
-        if checked >= 300000:
+        if added_to_closed >= 300000:
             print("Checked about 300,000 states and did not find the goal")
             return
 
