@@ -1,6 +1,7 @@
 from queue import PriorityQueue
 
 class State():
+    # By default, the f, g, h, and priority values are decided by BFS
     def __init__(self, board, parent=None, g=0):
         self.board = board
         self.id = hash(tuple(self.board))
@@ -12,9 +13,15 @@ class State():
             self.parent_id = 0
             self.priority = 0
 
-        self.f = 0
         self.g = g
         self.h = 0
+        self.f = self.g + self.h
+
+    # Allows setting new values for f, g, h, and priority if using A*
+    def set_priority(self, goal, heuristic):
+        self.h = heuristic(self, goal)
+        self.f = self.g + self.h
+        self.priority = self.f
 
     # Returns a list of the indices of tiles that can be moved
     def get_movable_tiles(self, i):
@@ -44,8 +51,9 @@ class State():
             tile_slot = movable_tiles.pop()
             n[empty_slot], n[tile_slot] = n[tile_slot], n[empty_slot]
 
-        cost = lambda x: 1 if x < 10 else 2
-        new_states = [State(n, self, cost(n[empty_slot])) for n in neighbors]
+        cost = self.g + (1 if n[empty_slot] < 10 else 2)
+        new_states = [State(n, self, cost) for n in neighbors]
+
         return new_states
 
     def pretty_board(self):
@@ -102,24 +110,36 @@ def unwind(state, start, visited):
     print(state)
     print()
 
+def search(start, goal, heuristic=None):
+    open_list = PriorityQueue()
+    closed_list = []
+    open_list.put(start)
+
+    while not open_list.empty():
+        curr = open_list.get()
+        if curr in closed_list:
+            continue
+
+        if curr == goal:
+            unwind(curr, start, closed_list)
+            break
+
+        closed_list.append(curr)
+
+        neighbors = curr.expand_state()
+        for n in neighbors:
+            if heuristic is not None:
+                n.set_priority(goal, heuristic)
+            open_list.put(n)
+
 start = State([1,5,2,3,4,6,0,7,8,9,10,11,12,13,14,15,16,17,18,19])
 goal = State([1,2,0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19])
 
-open_list = PriorityQueue()
-closed_list = []
-open_list.put(start)
+print("RUNNING BREADTH FIRST SEARCH")
+search(start, goal)
 
-while not open_list.empty():
-    curr = open_list.get()
-    if curr in closed_list:
-        continue
+print("RUNNING A* SEARCH WITH HEURISTIC ONE")
+search(start, goal, heuristic_one)
 
-    if curr == goal:
-        unwind(curr, start, closed_list)
-        break
-
-    closed_list.append(curr)
-
-    neighbors = curr.expand_state()
-    for n in neighbors:
-        open_list.put(n)
+print("RUNNING A* SEARCH WITH HEURISTIC TWO")
+search(start, goal, heuristic_two)
