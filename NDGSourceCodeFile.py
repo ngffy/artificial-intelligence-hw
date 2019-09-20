@@ -4,7 +4,7 @@ class State():
     # By default, the f, g, h, and priority values are decided by BFS
     def __init__(self, board, parent=None, g=0):
         self.board = board
-        self.id = hash(tuple(self.board))
+        self.id = hash(self.board)
 
         if parent is not None:
             self.parent_id = parent.id
@@ -52,7 +52,7 @@ class State():
             n[empty_slot], n[tile_slot] = n[tile_slot], n[empty_slot]
 
         cost = self.g + (1 if n[empty_slot] < 10 else 2)
-        new_states = [State(n, self, cost) for n in neighbors]
+        new_states = [State(tuple(n), self, cost) for n in neighbors]
 
         return new_states
 
@@ -85,6 +85,9 @@ class State():
     def __ge__(self, other):
         return self.priority >= other.priority
 
+    def __hash__(self):
+        return hash(self.board)
+
 def heuristic_one(curr_state, goal_state):
     h = 0
     for i in range(0, 20):
@@ -112,7 +115,7 @@ def unwind(state, start, visited):
 
 def search(start, goal, heuristic=None):
     open_list = PriorityQueue()
-    closed_list = []
+    closed_list = set()
     open_list.put(start)
 
     while not open_list.empty():
@@ -124,7 +127,7 @@ def search(start, goal, heuristic=None):
             unwind(curr, start, closed_list)
             break
 
-        closed_list.append(curr)
+        closed_list.add(curr)
 
         neighbors = curr.expand_state()
         for n in neighbors:
@@ -132,8 +135,8 @@ def search(start, goal, heuristic=None):
                 n.set_priority(goal, heuristic)
             open_list.put(n)
 
-start = State([1,5,2,3,4,6,0,7,8,9,10,11,12,13,14,15,16,17,18,19])
-goal = State([1,2,0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19])
+start = State((1,5,2,3,4,6,0,7,8,9,10,11,12,13,14,15,16,17,18,19))
+goal = State((1,2,0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19))
 
 print("RUNNING BREADTH FIRST SEARCH")
 search(start, goal)
