@@ -91,6 +91,14 @@ def heuristic_two(curr_state, goal_state):
             h += row_moves + col_moves
     return h
 
+def unwind(state, start, visited):
+    if state != start:
+        for v in visited:
+            if v.id == state.parent_id:
+                unwind(v, start, visited)
+    print(state)
+    print()
+
 start = State([1,5,2,3,4,6,0,7,8,9,10,11,12,13,14,15,16,17,18,19])
 goal = State([1,2,0,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19])
 
@@ -103,11 +111,12 @@ while not open_list.empty():
     if curr in closed_list:
         continue
 
-    print(curr)
-    print()
     if curr == goal:
-        print("Done")
+        unwind(curr, start, closed_list)
         break
-    else:
-        neighbors = curr.expand_state()
-        [open_list.put(n) for n in neighbors]
+
+    closed_list.append(curr)
+
+    neighbors = curr.expand_state()
+    for n in neighbors:
+        open_list.put(n)
