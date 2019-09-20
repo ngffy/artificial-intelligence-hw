@@ -41,8 +41,8 @@ class State():
 
         neighbors = [list(self.board) for i in movable_tiles]
         for n in neighbors:
-            tmp = movable_tiles.pop()
-            n[empty_slot], n[tmp] = n[tmp], n[empty_slot]
+            tile_slot = movable_tiles.pop()
+            n[empty_slot], n[tile_slot] = n[tile_slot], n[empty_slot]
 
         cost = lambda x: 1 if x < 10 else 2
         new_states = [State(n, self, cost(n[empty_slot])) for n in neighbors]
