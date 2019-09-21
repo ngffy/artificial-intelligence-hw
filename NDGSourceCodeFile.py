@@ -58,8 +58,8 @@ class State():
 
     def pretty_board(self):
         s = ""
-        for i in range(0, 5):
-            s += str(self.board[4*i:4*i+4])[1:-1] + "\n"
+        for i in range(0, 20, 4):
+            s += f"%2d %2d %2d %2d\n" % self.board[i:i+4]
         return s[:-1]
 
     def __str__(self):
