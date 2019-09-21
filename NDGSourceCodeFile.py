@@ -89,6 +89,7 @@ class State():
     def __hash__(self):
         return hash(self.board)
 
+# Returns the number of tiles not in the right spot
 def heuristic_one(curr_state, goal_state):
     h = 0
     for i in range(0, 20):
@@ -96,6 +97,8 @@ def heuristic_one(curr_state, goal_state):
             h += 1
     return h
 
+# Returns the sum of the minimum number of moves to get each tile in curr_state
+# to its spot in goal_state
 def heuristic_two(curr_state, goal_state):
     h = 0
     for i in range(0, 20):
