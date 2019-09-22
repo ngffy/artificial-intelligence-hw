@@ -43,14 +43,17 @@ class State():
         return movable_tiles
 
     def expand_state(self):
+        # Finds the empty space on board and the indices of tiles next to it
         empty_slot = self.board.index(0)
         movable_tiles = self.get_movable_tiles(empty_slot)
 
+        # Makes 2 to 4 copies of the board, one for each possible move
         neighbors = [list(self.board) for i in movable_tiles]
         for n in neighbors:
             tile_slot = movable_tiles.pop()
             n[empty_slot], n[tile_slot] = n[tile_slot], n[empty_slot]
 
+        # Makes the boards into State objects
         cost = self.g + (1 if n[empty_slot] < 10 else 2)
         new_states = [State(tuple(n), self, cost) for n in neighbors]
 
@@ -88,7 +91,7 @@ def heuristic_one(curr_state, goal_state):
     return h
 
 # Returns the sum of the minimum number of moves to get each tile in curr_state
-# to its spot in goal_state
+# to its spot in goal_state individually
 def heuristic_two(curr_state, goal_state):
     h = 0
     for i in range(0, 20):
