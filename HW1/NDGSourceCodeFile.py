@@ -49,13 +49,12 @@ class State():
 
         # Makes 2 to 4 copies of the board, one for each possible move
         neighbors = [list(self.board) for i in movable_tiles]
+        new_states = []
         for n in neighbors:
             tile_slot = movable_tiles.pop()
             n[empty_slot], n[tile_slot] = n[tile_slot], n[empty_slot]
-
-        # Makes the boards into State objects
-        cost = self.g + (1 if n[empty_slot] < 10 else 2)
-        new_states = [State(tuple(n), self, cost) for n in neighbors]
+            cost = self.g + (1 if n[empty_slot] < 10 else 2)
+            new_states.append(State(tuple(n), self, cost))
 
         return new_states
 
