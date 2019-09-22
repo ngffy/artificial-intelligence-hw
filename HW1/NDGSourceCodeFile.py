@@ -86,6 +86,8 @@ class State():
 def heuristic_one(curr_state, goal_state):
     h = 0
     for i in range(0, 20):
+        if curr_state.board[i] == 0:
+            continue
         if curr_state.board[i] != goal_state.board[i]:
             h += 1
     return h
@@ -95,6 +97,8 @@ def heuristic_one(curr_state, goal_state):
 def heuristic_two(curr_state, goal_state):
     h = 0
     for i in range(0, 20):
+        if curr_state.board[i] == 0:
+            continue
         if curr_state.board[i] != goal_state.board[i]:
             final_loc = goal_state.board.index(curr_state.board[i])
             row_moves = abs(i // 4 - final_loc // 4)
