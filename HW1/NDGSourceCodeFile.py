@@ -56,34 +56,24 @@ class State():
 
         return new_states
 
-    def pretty_board(self):
-        s = ""
-        for i in range(0, 20, 4):
-            s += f"%2d %2d %2d %2d\n" % self.board[i:i+4]
-        return s[:-1]
-
     def __str__(self):
+        formatted_board = ""
+        for i in range(0, 20, 4):
+            formatted_board += f"%2d %2d %2d %2d\n" % self.board[i:i+4]
+
         funcs = "f: "+str(self.f)+" g: "+str(self.g)+" h: "+str(self.h)
         pid = "\nParent ID: "+str(self.parent_id)
         prior = "\npriority: "+str(self.priority)
-        return "ID "+str(self.id)+":\n"+self.pretty_board()+"\n"+funcs+pid+prior
 
-    # == is overloaded to allow easy comparison to the goal state
+        return "ID "+str(self.id)+":\n"+formatted_board+"\n"+funcs+pid+prior
+
+    # Defined to allow easy comparison to the goal state
     def __eq__(self, other):
         return self.board == other.board
 
-    # All the inequality operators are overloaded so the priority queue works
+    # Defined so States can be put in a priority queue
     def __lt__(self, other):
         return self.priority < other.priority
-
-    def __gt__(self, other):
-        return self.priority > other.priority
-
-    def __le__(self, other):
-        return self.priority <= other.priority
-
-    def __ge__(self, other):
-        return self.priority >= other.priority
 
     # Defined so State objects can be put in sets
     def __hash__(self):
