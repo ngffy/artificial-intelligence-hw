@@ -6,12 +6,12 @@ class State():
         self.board = board
         self.id = hash(self.board)
 
-        if parent is not None:
-            self.parent_id = parent.id
-            self.priority = parent.priority + 1
-        else:
+        if parent is None:
             self.parent_id = 0
             self.priority = 0
+        else:
+            self.parent_id = parent.id
+            self.priority = parent.priority + 1
 
         self.g = g
         self.h = 0
