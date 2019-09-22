@@ -49,6 +49,8 @@ class State():
 
         # Makes 2 to 4 copies of the board, one for each possible move
         neighbors = [list(self.board) for i in movable_tiles]
+
+        # Makes every possible move and returns a list of all the new states
         new_states = []
         for n in neighbors:
             tile_slot = movable_tiles.pop()
