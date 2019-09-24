@@ -157,21 +157,8 @@ def search(start, goal, heuristic=None):
     print("States added to closed list:", added_to_closed)
     print()
 
-# Test case 1
-"""
-start = State((16,17,5,1,3,4,2,10,6,8,13,9,7,12,0,14,11,15,18,19))
-goal = State((16,17,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0,18,19))
-"""
-
-# Test case 2
-"""
-start = State((1,0,3,4,5,2,7,8,9,6,15,11,13,10,14,12,16,17,18,19))
-goal = State((1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0,16,17,18,19))
-"""
-
-# Test case 3
-start = State((2,0,3,4,1,5,7,8,9,6,10,12,13,14,11,15,16,17,18,19))
-goal = State((1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0,17,16,18,19))
+start = State(eval(input("Please enter the starting board, with numbers separated by commas: ")))
+goal = State(eval(input("Please enter the goal board, with numbers separated by commas: ")))
 
 print("RUNNING BREADTH FIRST SEARCH")
 search(start, goal)
