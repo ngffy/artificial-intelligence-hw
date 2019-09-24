@@ -24,21 +24,21 @@ class State():
         self.priority = self.f
 
     # Returns a list of the indices of tiles that can be moved
-    def get_movable_tiles(self, i):
-        on_top_edge = i in range(0, 4)
-        on_left_edge = i in range(0, 20, 4)
-        on_right_edge = i in range(3, 24, 4)
-        on_bot_edge = i in range(16, 20)
+    def get_movable_tiles(self, empty_slot):
+        on_top_edge = empty_slot in range(0, 4)
+        on_left_edge = empty_slot in range(0, 20, 4)
+        on_right_edge = empty_slot in range(3, 24, 4)
+        on_bot_edge = empty_slot in range(16, 20)
 
         movable_tiles = []
         if not on_top_edge:
-            movable_tiles.append(i-4)
+            movable_tiles.append(empty_slot-4)
         if not on_left_edge:
-            movable_tiles.append(i-1)
+            movable_tiles.append(empty_slot-1)
         if not on_right_edge:
-            movable_tiles.append(i+1)
+            movable_tiles.append(empty_slot+1)
         if not on_bot_edge:
-            movable_tiles.append(i+4)
+            movable_tiles.append(empty_slot+4)
 
         return movable_tiles
 
@@ -164,14 +164,14 @@ goal = State((16,17,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0,18,19))
 """
 
 # Test case 2
+"""
 start = State((1,0,3,4,5,2,7,8,9,6,15,11,13,10,14,12,16,17,18,19))
 goal = State((1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0,16,17,18,19))
+"""
 
 # Test case 3
-"""
 start = State((2,0,3,4,1,5,7,8,9,6,10,12,13,14,11,15,16,17,18,19))
 goal = State((1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0,17,16,18,19))
-"""
 
 print("RUNNING BREADTH FIRST SEARCH")
 search(start, goal)
