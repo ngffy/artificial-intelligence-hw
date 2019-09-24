@@ -60,6 +60,7 @@ class State():
 
         return new_states
 
+    # Used to display all the information about the State when printed
     def __str__(self):
         formatted_board = ""
         for i in range(0, 20, 4):
